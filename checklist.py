@@ -43,7 +43,24 @@ def destroy(index):
 
 # MARK COMPLETED
 def mark_completed(index):
-    checklist[index] = "√" + checklist[index]
+    item = checklist[index]
+
+    if item[0] != "√":
+        checklist[index] = "√ " + checklist[index]
+        return("Item marked as complete.")
+    else:
+        return("item is already marked as complete.")
+
+# MARK UNCOMPLETED
+def mark_uncompleted(index):
+    item = checklist[index]
+    
+    if item[0] == "√":
+        incompleted_item = item.replace("√ ","")
+        checklist[index] = incompleted_item
+        return("Item marked as incomplete.")
+    else:
+        return("Item is already marked as incomplete.")
 
 # LIST ALL ITEMS
 def list_all_items():
@@ -80,6 +97,21 @@ def select(function_code):
     elif function_code == "d":
         item_index = int(user_input("Index Number: "))
         print(destroy(item_index))
+    
+    # Mark Complete/Incomplete
+    elif function_code == "m":
+        complete_incomplete = user_input("Mark as Complete or Incomplete?(Enter C/I): ").lower()
+
+        if complete_incomplete == "c":
+            item_index = int(user_input("Index Number: "))
+            print(mark_completed(item_index))
+        
+        elif complete_incomplete == "i":
+            item_index = int(user_input("Index Number: "))
+            print(mark_uncompleted(item_index))
+        
+        else:
+            print("Invalid Option")
 
     elif function_code == "q":
         return False
@@ -129,7 +161,7 @@ running = True
 while running:
     os.system("clear")
     selection = user_input(
-        "Press A to Add to list, R to Read from list, L to Display list, U to Update item, D to Destroy item, and Q to quit: ")
+        "Press A to Add to list, R to Read from list, L to Display list, U to Update item, D to Destroy item, M to Mark Complete/Incomplete, and Q to quit: ")
     selection_both_cases = selection.lower()
     running = select(selection_both_cases)
     input("Press Enter to Continue...")
