@@ -1,8 +1,21 @@
+import sys
+import os
+import random
+
+# USING TERMCOLOR MODULE FOR COLORED TEXT: https://pypi.org/project/termcolor/
+from termcolor import colored
+
 checklist = list()
+
+# RANDOM COLOR SELECTOR
+def color_selector():
+    color_list = ['grey', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan']
+    return random.choice(color_list)
 
 # CREATE
 def create(item):
-    checklist.append(item)
+    colored_item = colored(item, color_selector())
+    checklist.append(colored_item)
 
 # READ
 def read(index):
@@ -15,7 +28,8 @@ def read(index):
 # UPDATE
 def update(index, item):
     try:
-        checklist[index] = item
+        checklist[index] = colored(item, color_selector())
+        return("Item at index " + str(index) + " updated to " + item)
     except IndexError:
         return("Index does not exist.")
 
@@ -23,6 +37,7 @@ def update(index, item):
 def destroy(index):
     try:
         checklist.pop(index)
+        return("Item at index " + str(index) + " removed.")
     except IndexError:
         return("Index does not exist.")
 
@@ -40,24 +55,39 @@ def list_all_items():
 # SELECT
 def select(function_code):
     # Create item
-    if function_code == "C":
+    if function_code == "a":
         input_item = user_input("Input item: ")
         create(input_item)
 
     # Read item
-    elif function_code == "R":
-        item_index = int(user_input("Index Number?: "))
+    elif function_code == "r":
+        item_index = int(user_input("Index Number: "))
 
         # Remember that item_index must actually exist or our program will crash.
-        read(item_index)
+        print(read(item_index))
 
     # Print all items
-    elif function_code == "P":
+    elif function_code == "l":
         list_all_items()
+
+    # Update item
+    elif function_code == "u":
+        item_index = int(user_input("Index Number: "))
+        update_item = user_input("Input item: ")
+        print(update(item_index, update_item))
+
+    # Destroy item
+    elif function_code == "d":
+        item_index = int(user_input("Index Number: "))
+        print(destroy(item_index))
+
+    elif function_code == "q":
+        return False
 
     # Catch all
     else:
         print("Unknown Option")
+    return True
 
 # USER INPUT
 def user_input(prompt):
@@ -66,6 +96,7 @@ def user_input(prompt):
 
 # TESTING FUNCTIONS
 def test():
+    '''
     create("purple sox")
     create("red cloak")
 
@@ -89,6 +120,16 @@ def test():
 
     select("P")
     list_all_items()
+    '''
 
 # RUN TESTS
 test()
+
+running = True
+while running:
+    os.system("clear")
+    selection = user_input(
+        "Press A to Add to list, R to Read from list, L to Display list, U to Update item, D to Destroy item, and Q to quit: ")
+    selection_both_cases = selection.lower()
+    running = select(selection_both_cases)
+    input("Press Enter to Continue...")
