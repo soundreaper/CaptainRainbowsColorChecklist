@@ -126,7 +126,6 @@ def user_input(prompt):
 
 # TESTING FUNCTIONS
 def test():
-    '''
     create("purple sox")
     create("red cloak")
 
@@ -150,7 +149,6 @@ def test():
 
     select("P")
     list_all_items()
-    '''
 
 # RUN TESTS
 test()
