@@ -23,23 +23,23 @@ def read(index):
         item = checklist[index]
         return item
     except IndexError:
-        return("Index does not exist.")
+        return("\nIndex does not exist.")
 
 # UPDATE
 def update(index, item):
     try:
         checklist[index] = colored(item, color_selector())
-        return("Item at index " + str(index) + " updated to " + item)
+        return("\nItem at index " + str(index) + " updated to " + item)
     except IndexError:
-        return("Index does not exist.")
+        return("\nIndex does not exist.")
 
 # DESTROY
 def destroy(index):
     try:
         checklist.pop(index)
-        return("Item at index " + str(index) + " removed.")
+        return("\nItem at index " + str(index) + " removed.")
     except IndexError:
-        return("Index does not exist.")
+        return("\nIndex does not exist.")
 
 # MARK COMPLETED
 def mark_completed(index):
@@ -47,20 +47,20 @@ def mark_completed(index):
 
     if item[0] != "√":
         checklist[index] = "√ " + checklist[index]
-        return("Item marked as complete.")
+        return("\nItem marked as complete.")
     else:
-        return("item is already marked as complete.")
+        return("\nItem is already marked as complete.")
 
-# MARK UNCOMPLETED
-def mark_uncompleted(index):
+# MARK INCOMPLETE
+def mark_incomplete(index):
     item = checklist[index]
     
     if item[0] == "√":
         incompleted_item = item.replace("√ ","")
         checklist[index] = incompleted_item
-        return("Item marked as incomplete.")
+        return("\nItem marked as incomplete.")
     else:
-        return("Item is already marked as incomplete.")
+        return("\nItem is already marked as incomplete.")
 
 # LIST ALL ITEMS
 def list_all_items():
@@ -69,7 +69,7 @@ def list_all_items():
         print("{} {}".format(index, list_item))
         index += 1
 
-# SELECT
+# SELECT OPTIONS
 def select(function_code):
     # Create item
     if function_code == "a":
@@ -79,9 +79,7 @@ def select(function_code):
     # Read item
     elif function_code == "r":
         item_index = int(user_input("Index Number: "))
-
-        # Remember that item_index must actually exist or our program will crash.
-        print(read(item_index))
+        print("\n" + read(item_index))
 
     # Print all items
     elif function_code == "l":
@@ -108,7 +106,7 @@ def select(function_code):
         
         elif complete_incomplete == "i":
             item_index = int(user_input("Index Number: "))
-            print(mark_uncompleted(item_index))
+            print(mark_incomplete(item_index))
         
         else:
             print("Invalid Option")
@@ -164,4 +162,4 @@ while running:
         "Press A to Add to list, R to Read from list, L to Display list, U to Update item, D to Destroy item, M to Mark Complete/Incomplete, and Q to quit: ")
     selection_both_cases = selection.lower()
     running = select(selection_both_cases)
-    input("Press Enter to Continue...")
+    input("\nPress Enter to Continue...")
